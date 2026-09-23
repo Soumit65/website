@@ -1,0 +1,181 @@
+<!-- ========================================================= -->
+<!-- ===================== physics.html ====================== -->
+<!-- ========================================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Physics & Astronomy</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">Soumit</div>
+
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+
+    </nav>
+
+    <section class="page">
+
+        <h1 class="section-title">Physics & Astronomy</h1>
+
+        <p class="section-subtitle">
+
+            Research interests involving solar physics,
+            astronomy observations, computational physics,
+            and scientific image analysis.
+
+        </p>
+
+        <div class="content-card">
+
+            <h3>Sunspot Tracking & Area Measurement</h3>
+
+            <p>
+
+                Conducted solar observations using white-light telescope imaging.
+                Developed workflows for tracking sunspots,
+                measuring spot areas,
+                and studying solar rotation behavior.
+
+            </p>
+
+        </div>
+
+        <div class="content-card">
+
+            <h3>Alpha Centauri Rotation Analysis</h3>
+
+            <p>
+
+                Worked with observational data from the
+                CUTE CubeSat mission to estimate
+                stellar rotation properties using
+                computational analysis.
+
+            </p>
+
+        </div>
+
+        <div class="content-card">
+
+            <h3>Aditya-L1 Solar Flare Analysis</h3>
+
+            <p>
+
+                Built a Python pipeline analyzing an X6.3-class solar flare
+                (Feb 22, 2024) using SoLEXS and HEL1OS data from India's
+                Aditya-L1 spacecraft, demonstrating the Neupert effect
+                through light-curve processing and rise/peak/decay
+                spectral analysis.
+
+            </p>
+
+        </div>
+
+        <div class="content-card">
+
+            <h3>Projects</h3>
+
+            <p>
+                Pulled live from
+                <a href="https://github.com/Soumit65" target="_blank" style="color:#8ec5ff;">github.com/Soumit65</a>
+                — updates automatically as new repos are added.
+            </p>
+
+            <div class="repo-grid" id="repo-grid">
+                <div class="placeholder-tile"><span class="icon">💻</span>Loading repositories…</div>
+            </div>
+
+        </div>
+
+        <script>
+        (function () {
+
+            const GITHUB_USERNAME = "Soumit65";
+
+            // Repos to leave out of the grid (this site's own repos, etc.)
+            const EXCLUDED_REPOS = ["website", "my-website"];
+
+            const grid = document.getElementById("repo-grid");
+
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`)
+                .then(res => res.json())
+                .then(repos => {
+
+                    if (!Array.isArray(repos)) throw new Error("bad response");
+
+                    const filtered = repos.filter(r =>
+                        !r.fork && !EXCLUDED_REPOS.includes(r.name)
+                    );
+
+                    if (!filtered.length) throw new Error("no repos");
+
+                    grid.innerHTML = "";
+
+                    filtered.forEach(repo => {
+
+                        const card = document.createElement("a");
+                        card.className = "repo-card";
+                        card.href = repo.html_url;
+                        card.target = "_blank";
+                        card.rel = "noopener";
+
+                        const title = document.createElement("h4");
+                        title.textContent = repo.name;
+
+                        const desc = document.createElement("p");
+                        desc.textContent = repo.description || "No description yet.";
+
+                        const meta = document.createElement("div");
+                        meta.className = "repo-meta";
+                        const updated = new Date(repo.updated_at).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+                        meta.innerHTML = `<span>${repo.language || ""}</span><span>Updated ${updated}</span>`;
+
+                        card.appendChild(title);
+                        card.appendChild(desc);
+                        card.appendChild(meta);
+
+                        grid.appendChild(card);
+
+                    });
+
+                })
+                .catch(() => {
+                    grid.innerHTML = '<div class="placeholder-tile"><span class="icon">💻</span>Couldn\'t load GitHub repos</div>';
+                });
+
+        })();
+        </script>
+
+        <div class="gallery">
+
+            <img src="images/result_blue.jpg" alt="SUIT solar image">
+
+            <!-- Replace with a real image: images/sunspot.jpg -->
+            <div class="placeholder-tile"><span class="icon">🌞</span>Add sunspot.jpg</div>
+
+            <!-- Replace with a real image: images/telescope.jpg -->
+            <div class="placeholder-tile"><span class="icon">🔭</span>Add telescope.jpg</div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
